@@ -2,10 +2,13 @@ package com.xchange.demobackend.infastructure.transaction.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.xchange.demobackend.infastructure.product.model.Product;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,6 +34,16 @@ public class Transaction {
 
     @Column(name = "t_tax")
     private BigDecimal tax;
+
+    @Column(name = "p_createdAt", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date createdAt;
+
+    @Column(name = "p_modifiedAt", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -71,5 +84,13 @@ public class Transaction {
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 }
